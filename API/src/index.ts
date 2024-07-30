@@ -17,10 +17,10 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
-app.use('/api/users', userRouter);
+// app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/lists', listRouter);
-app.use('/api/movies', movieRouter);
+// app.use('/api/lists', listRouter);
+// app.use('/api/movies', movieRouter);
 
 const port = process.env.PORT || 3000;
 app.listen(port, async () => {
