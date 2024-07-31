@@ -2,14 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 interface CustomRequest extends Request {
-  user?: any;
+  user?: { id: string; isAdmin: boolean };
 }
 
-const jwtVerify = async (req: CustomRequest, res: Response, next: NextFunction): Promise<void> => {
+const jwtVerify = (req: CustomRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization'];
 
   if (authHeader) {
-    const token = authHeader.split(' ')[1]; 
+    const token = authHeader.split(' ')[1];
 
     jwt.verify(token, process.env.SECRET_KEY_FOR_CRYPTOJS!, (err, user) => {
       if (err) {
@@ -18,7 +18,7 @@ const jwtVerify = async (req: CustomRequest, res: Response, next: NextFunction):
           message: 'Token is not valid!',
         });
       }
-      req.user = user;
+      req.user = user as { id: string; isAdmin: boolean };
       next();
     });
   } else {

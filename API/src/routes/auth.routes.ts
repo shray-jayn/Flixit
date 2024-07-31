@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { registerUser, loginUser } from '../controllers/auth.controller';
-import { registerSchema, loginSchema } from '../zodSchema/auth.zod';
+import { registerSchema, loginSchema } from '../zodSchemas/auth.zod';
 import validate from '../middlewares/validate';
 
 const authRouter = Router();

@@ -1,11 +1,15 @@
 import { Router } from 'express';
 import { createList, deleteList, getAllLists } from '../controllers/list.controller';
-import { jwtVerify } from '../middleware/jwtVerify';
+import jwtVerify from '../middlewares/jwtVerify';
+import { listSchema } from '../zodSchemas/list.zod';
+import validate from '../middlewares/validate';
 
 const listRouter = Router();
 
-listRouter.post('/', jwtVerify, createList);
-listRouter.delete('/:userId', jwtVerify, deleteList);
-listRouter.get('/', jwtVerify, getAllLists);
+listRouter.use(jwtVerify);
+
+listRouter.post('/', validate(listSchema), createList);
+listRouter.delete('/:userId', deleteList);
+listRouter.get('/', getAllLists);
 
 export default listRouter;
