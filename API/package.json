@@ -7,8 +7,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --outdir=dist --sourcemap --target=node14",
     "start": "npm run build && node dist/index.js",
     "dev": "nodemon src/index.ts",
-    "lint": "eslint 'src/**/*.{js,ts}'",
-    "lint:fix": "eslint 'src/**/*.{js,ts}' --fix"
+    "prisma:seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,23 +24,16 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.8.0",
     "@types/cors": "^2.8.17",
     "@types/crypto-js": "^4.2.2",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.17.0",
-    "@typescript-eslint/parser": "^7.17.0",
     "esbuild": "^0.23.0",
-    "eslint": "^9.8.0",
-    "eslint-plugin-react": "^7.35.0",
-    "globals": "^15.8.0",
     "nodemon": "^3.1.4",
     "prisma": "^5.17.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^7.17.0"
+    "typescript": "^5.5.4"
   }
 }
