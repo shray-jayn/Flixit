@@ -7,7 +7,7 @@ import Login from "./pages/login/Login";
 
 function App() {
   
-  const user = "shray"; // Simulate a logged-in user
+  const user = "shray"; 
 
   return (
     <Router>

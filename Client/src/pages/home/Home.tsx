@@ -1,4 +1,6 @@
 import React from 'react';
+import Navbar from '../../components/navbar/Navbar';
+import "./Home.scss";
 
 interface HomeProps {
   type?: string;
@@ -7,8 +9,7 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({ type }) => {
   return (
     <div>
-      <h1>This is Home</h1>
-      {type && <p>Type: {type}</p>}
+      <Navbar/>
     </div>
   );
 }
