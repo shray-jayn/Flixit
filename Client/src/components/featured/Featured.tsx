@@ -1,10 +1,10 @@
 import { InfoOutlined, PlayArrow } from "@mui/icons-material"; 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import "./featured.scss";
+import "./Featured.scss";
 
 interface FeaturedProps {
-  type: string;
+  type?: string;
   setGenre: (genre: string) => void;
 }
 
@@ -15,7 +15,6 @@ interface Content {
 }
 
 const Featured: React.FC<FeaturedProps> = ({ type, setGenre }) => {
-    
   const [content, setContent] = useState<Content | null>(null);
 
   useEffect(() => {

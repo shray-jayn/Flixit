@@ -1,4 +1,4 @@
-import "./listItem.scss";
+import "./ListItem.scss";
 import { PlayArrow, Add, ThumbUpAltOutlined, ThumbDownOutlined } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import axios from "axios";

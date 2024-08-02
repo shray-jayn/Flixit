@@ -7,7 +7,7 @@ import Login from "./pages/login/Login";
 
 function App() {
   
-  const user = "shray"; 
+  const user = null; 
 
   return (
     <Router>
