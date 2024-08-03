@@ -13,34 +13,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  username  String   
-  password  String
-  profilePic String? @default("")
-  isAdmin   Boolean  @default(false) 
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  email      String   @unique
+  username   String
+  password   String
+  profilePic String?  @default("")
+  isAdmin    Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Movie {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   description String?
   poster      String?
   thumbnail   String?
-  title       String  @unique 
+  title       String   @unique
   trailer     String?
   video       String?
   year        String?
   limit       String?
   genre       String?
-  isSeries    Boolean @default(false) 
+  isSeries    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model List {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  title   String   @unique
-  type    String?
-  genre   String?
-  content String[] 
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String   @unique
+  type      String?
+  genre     String?
+  content   String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
