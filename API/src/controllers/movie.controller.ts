@@ -10,9 +10,24 @@ interface CustomRequest extends Request {
 export const createMovie = async (req: CustomRequest, res: Response): Promise<void> => {
   if (req.user?.isAdmin) {
     try {
+      const existingMovie = await prisma.movie.findUnique({
+        where: {
+          title: req.body.title,
+        },
+      });
+
+      if (existingMovie) {
+        res.status(400).json({
+          success: false,
+          message: 'A movie with this title already exists!',
+        });
+        return;
+      }
+      
       const newMovie = await prisma.movie.create({
         data: req.body,
       });
+
       res.status(200).json(newMovie);
     } catch (error) {
       res.status(500).json({

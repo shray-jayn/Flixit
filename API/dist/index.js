@@ -27615,8 +27615,8 @@ var require_client = __commonJS({
           }
         }
       },
-      "inlineSchema": 'generator client {\n  provider = "prisma-client-js"\n}\n\ndatasource db {\n  provider = "mongodb"\n  url      = env("DATABASE_URL")\n}\n\nmodel User {\n  id         String   @id @default(auto()) @map("_id") @db.ObjectId\n  email      String   @unique\n  username   String\n  password   String\n  profilePic String?  @default("")\n  isAdmin    Boolean  @default(false)\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n}\n\nmodel Movie {\n  id          String   @id @default(auto()) @map("_id") @db.ObjectId\n  description String?\n  poster      String?\n  thumbnail   String?\n  title       String   @unique\n  trailer     String?\n  video       String?\n  year        String?\n  limit       String?\n  genre       String?\n  isSeries    Boolean  @default(false)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n\nmodel List {\n  id        String   @id @default(auto()) @map("_id") @db.ObjectId\n  title     String   @unique\n  type      String?\n  genre     String?\n  content   String[]\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n',
-      "inlineSchemaHash": "a60fda7ff74c61c9c8fa4c88e3c005f6c7e24dce14fecc0a4678ffd681063cc6",
+      "inlineSchema": '// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client-js"\n}\n\ndatasource db {\n  provider = "mongodb"\n  url      = env("DATABASE_URL")\n}\n\nmodel User {\n  id         String   @id @default(auto()) @map("_id") @db.ObjectId\n  email      String   @unique\n  username   String\n  password   String\n  profilePic String?  @default("")\n  isAdmin    Boolean  @default(false)\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n}\n\nmodel Movie {\n  id          String   @id @default(auto()) @map("_id") @db.ObjectId\n  description String?\n  poster      String?\n  thumbnail   String?\n  title       String   @unique\n  trailer     String?\n  video       String?\n  year        String?\n  limit       String?\n  genre       String?\n  isSeries    Boolean  @default(false)\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n\nmodel List {\n  id        String   @id @default(auto()) @map("_id") @db.ObjectId\n  title     String   @unique\n  type      String?\n  genre     String?\n  content   String[]\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n',
+      "inlineSchemaHash": "6500f182c9c0ee2fe5dacde1c6d16fc53e811a12f33c28688d99b5d399f296ab",
       "copyEngine": true
     };
     var fs2 = require("fs");
@@ -43352,6 +43352,18 @@ var createMovie = async (req, res) => {
   var _a2;
   if ((_a2 = req.user) == null ? void 0 : _a2.isAdmin) {
     try {
+      const existingMovie = await prisma4.movie.findUnique({
+        where: {
+          title: req.body.title
+        }
+      });
+      if (existingMovie) {
+        res.status(400).json({
+          success: false,
+          message: "A movie with this title already exists!"
+        });
+        return;
+      }
       const newMovie = await prisma4.movie.create({
         data: req.body
       });
