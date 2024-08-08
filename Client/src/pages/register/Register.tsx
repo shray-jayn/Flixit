@@ -1,6 +1,8 @@
-import axios from "axios";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { userState } from "../../recoil/atoms/authAtom";
+import axiosPublic from "../../api/axiosPublic";
 import "./Register.scss";
 
 const Register: React.FC = () => {
@@ -8,6 +10,7 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -25,8 +28,11 @@ const Register: React.FC = () => {
       setPassword(passwordRef.current.value);
       setUsername(usernameRef.current.value);
       try {
-        await axios.post("/auth/register", { email, username, password });
-        navigate("/login");
+        const res = await axiosPublic.post("/auth/register", { email, username, password });
+        const { user, accessToken } = res.data;
+        setUser({ ...user, accessToken });
+        localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
+        navigate("/");
       } catch (err) {
         console.error(err);
       }

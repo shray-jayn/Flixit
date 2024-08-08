@@ -1,6 +1,6 @@
-import { InfoOutlined, PlayArrow } from "@mui/icons-material"; 
-import axios from "axios";
+import { InfoOutlined, PlayArrow } from "@mui/icons-material";
 import { useEffect, useState } from "react";
+import axiosInstance from "../../api/axiosInstance";
 import "./Featured.scss";
 
 interface FeaturedProps {
@@ -20,16 +20,7 @@ const Featured: React.FC<FeaturedProps> = ({ type, setGenre }) => {
   useEffect(() => {
     const getRandomContent = async () => {
       try {
-        const user = localStorage.getItem("user");
-        if (!user) {
-          throw new Error("User not found in localStorage");
-        }
-
-        const token = `Bearer ${JSON.parse(user).accessToken}`;
-        const res = await axios.get(`/movies/random?type=${type}`, {
-          headers: { token },
-        });
-
+        const res = await axiosInstance.get(`/movies/random?type=${type}`);
         setContent(res.data[0]);
       } catch (err) {
         console.error(err);

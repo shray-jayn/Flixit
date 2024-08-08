@@ -1,8 +1,8 @@
-@import "../../app.scss";
+@import "../../App.scss";
+
 .featured {
-  height: 80vh;
+  height: 76vh;
   position: relative;
-  padding-bottom: 20px;
 
   .category {
     position: absolute;
@@ -24,7 +24,7 @@
     }
   }
 
-  #genre {
+  #genre{
     z-index: 2;
   }
 
@@ -41,20 +41,15 @@
     bottom: 60px;
     color: white;
     display: flex;
-    flex-direction: column; /* This property is highlighted */
-
-    .imgTitle {
-      width: 25%;
-      margin-right: 20px;
-    }
+    flex-direction: column;
 
     img {
-      width: 45vw;
+      width: 40vw;
+      margin-top: 100px;
     }
 
     .desc {
       margin: 20px 0px;
-      font-weight: 500;
 
       @include mobile {
         width: 60vw;
@@ -63,9 +58,6 @@
 
     .buttons {
       display: flex;
-      a {
-        text-decoration: none;
-      }
 
       button {
         padding: 10px 20px;

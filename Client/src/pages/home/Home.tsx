@@ -4,6 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Featured from "../../components/featured/Featured";
 import List from "../../components/list/List";
 import "./Home.scss";
+import { BACKEND_URL } from "../../environment/config";
 
 interface ListItem {
   _id: string;
@@ -15,7 +16,7 @@ interface HomeProps {
   type?: string;
 }
 
-const Home: React.FC<HomeProps> = ({ type = "" }) => {
+const Home: React.FC<HomeProps> = ({ type }) => {
   const [lists, setLists] = useState<ListItem[]>([]);
   const [genre, setGenre] = useState<string | null>(null);
 
@@ -29,10 +30,10 @@ const Home: React.FC<HomeProps> = ({ type = "" }) => {
 
         const token = `Bearer ${JSON.parse(user).accessToken}`;
         const res = await axios.get(
-          `lists${type ? "?type=" + type : ""}${genre ? "&genre=" + genre : ""}`,
+          `${BACKEND_URL}/lists${type ? "?type=" + type : ""}${genre ? "&genre=" + genre : ""}`,
           {
             headers: { token },
-          }
+          },
         );
 
         setLists(res.data);

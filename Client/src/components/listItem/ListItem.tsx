@@ -1,8 +1,8 @@
 import "./ListItem.scss";
 import { PlayArrow, Add, ThumbUpAltOutlined, ThumbDownOutlined } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../api/axiosInstance";
 
 interface Movie {
   trailer: string;
@@ -26,16 +26,7 @@ const ListItem: React.FC<ListItemProps> = ({ index, item }) => {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const user = localStorage.getItem("user");
-        if (!user) {
-          throw new Error("User not found in localStorage");
-        }
-
-        const token = `Bearer ${JSON.parse(user).accessToken}`;
-        const res = await axios.get(`/movies/find/${item}`, {
-          headers: { token },
-        });
-
+        const res = await axiosInstance.get(`/movies/find/${item}`);
         setMovie(res.data);
       } catch (err) {
         console.error(err);

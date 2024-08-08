@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { ArrowDropDown, Notifications, Search } from "@mui/icons-material";
+import { userState } from "../../recoil/atoms/authAtom";
 import "./Navbar.scss";
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +19,11 @@ const Navbar: React.FC = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+  };
 
   return (
     <div className={isScrolled ? "navbar scrolled" : "navbar"}>
@@ -56,7 +64,7 @@ const Navbar: React.FC = () => {
             <ArrowDropDown className="icon" />
             <div className="options">
               <span>Settings</span>
-              <span>Logout</span>
+              <span onClick={handleLogout}>Logout</span>
             </div>
           </div>
         </div>
