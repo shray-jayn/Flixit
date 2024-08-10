@@ -141,12 +141,19 @@ export const getRandomMovie = async (req: CustomRequest, res: Response): Promise
   const type = req.query.type as string;
 
   try {
-    const movie = await prisma.movie.aggregate({
+    const count = await prisma.movie.count({
+      where: { isSeries: type === 'series' },
+    });
+
+    const randomIndex = Math.floor(Math.random() * count);
+
+    const randomMovie = await prisma.movie.findMany({
       where: { isSeries: type === 'series' },
       take: 1,
-      orderBy: { id: 'asc' },
+      skip: randomIndex,
     });
-    res.status(200).json(movie);
+
+    res.status(200).json(randomMovie);
   } catch (error) {
     res.status(500).json({
       success: false,
