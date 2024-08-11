@@ -4,11 +4,10 @@ import { useSetRecoilState } from "recoil";
 import { userState } from "../../recoil/atoms/authAtom";
 import axiosPublic from "../../api/axiosPublic";
 import "./Register.scss";
+import { AxiosError } from "axios";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
   const navigate = useNavigate();
   const setUser = useSetRecoilState(userState);
 
@@ -24,9 +23,9 @@ const Register: React.FC = () => {
 
   const handleFinish = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordRef.current && usernameRef.current) {
-      setPassword(passwordRef.current.value);
-      setUsername(usernameRef.current.value);
+    const username = usernameRef.current?.value || "";
+    const password = passwordRef.current?.value || "";
+    if (username && password) {
       try {
         const res = await axiosPublic.post("/auth/register", { email, username, password });
         const { user, accessToken } = res.data;
@@ -34,8 +33,14 @@ const Register: React.FC = () => {
         localStorage.setItem("user", JSON.stringify({ ...user, accessToken }));
         navigate("/");
       } catch (err) {
-        console.error(err);
+        if (err instanceof AxiosError && err.response) {
+          console.error("Registration failed", err.response.data);
+        } else {
+          console.error("An unknown error occurred", err);
+        }
       }
+    } else {
+      console.error("Username and password are required");
     }
   };
 
