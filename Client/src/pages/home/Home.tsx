@@ -32,7 +32,7 @@ const Home: React.FC<HomeProps> = ({ type }) => {
         const res = await axios.get(
           `${BACKEND_URL}/lists${type ? "?type=" + type : ""}${genre ? "&genre=" + genre : ""}`,
           {
-            headers: { token },
+            headers: { Authorization: token },
           },
         );
 
